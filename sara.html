@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>عرض زواج زراعي | إلى سارة</title>
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e3c2c 0%, #2a5a3a 100%);
+            color: #f5f5e6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* حاويات الخلفيات المتحركة (أوراق، أنابيب، نباتات) */
+        .leaves-container, .lab-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .leaf, .lab-item {
+            position: absolute;
+            opacity: 0.6;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .leaf {
+            color: #b0d9b1;
+            font-size: 24px;
+            animation: floatLeaf 7s infinite ease-in-out;
+        }
+
+        .lab-item {
+            color: #cfe7cf;
+            font-size: 28px;
+            animation: floatLab 9s infinite ease-in-out;
+        }
+
+        @keyframes floatLeaf {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-35px) rotate(8deg);
+            }
+        }
+
+        @keyframes floatLab {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-25px) rotate(-5deg);
+            }
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: #d4e6b0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #d4e6b0, #f5e6a3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(180, 210, 120, 0.4);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #e2f0cf;
+            margin-bottom: 40px;
+        }
+
+        .name-container {
+            background: rgba(60, 90, 50, 0.5);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            border: 2px solid rgba(200, 230, 150, 0.6);
+            box-shadow: 0 0 30px rgba(120, 160, 80, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .name-container::before {
+            content: "🌱";
+            position: absolute;
+            font-size: 5rem;
+            opacity: 0.15;
+            top: 10px;
+            left: 20px;
+            transform: rotate(-20deg);
+        }
+
+        .name-container::after {
+            content: "🧪";
+            position: absolute;
+            font-size: 5rem;
+            opacity: 0.15;
+            bottom: 10px;
+            right: 20px;
+            transform: rotate(15deg);
+        }
+
+        .name {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #e0ffb0, #ffdfa0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(200, 230, 100, 0.5);
+            letter-spacing: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title-under-name {
+            font-size: 1.4rem;
+            color: #ffdd99;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .proposal-card {
+            background: rgba(40, 65, 35, 0.65);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 30px;
+            flex: 1;
+            min-width: 300px;
+            max-width: 520px;
+            border: 2px solid rgba(180, 210, 120, 0.5);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .proposal-card h2 {
+            color: #f5e6a3;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .proposal-card p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #f0f7e6;
+            margin-bottom: 25px;
+        }
+
+        .report-container {
+            background: rgba(20, 35, 15, 0.7);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: right;
+            border-right: 4px solid #c0d86e;
+            border-left: none;
+            position: relative;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px dashed #c0d86e;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .lab-name {
+            font-size: 1.5rem;
+            color: #e5ffb3;
+            font-weight: bold;
+        }
+
+        .report-title {
+            font-size: 1.7rem;
+            color: #ffdd88;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .report-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dotted rgba(220, 240, 150, 0.4);
+        }
+
+        .factor-name {
+            color: #f5e6a3;
+        }
+
+        .value {
+            color: #b8f0a0;
+        }
+
+        .signature {
+            text-align: left;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #c0d86e;
+        }
+
+        .btn-container {
+            margin-top: 30px;
+        }
+
+        .proposal-btn {
+            background: linear-gradient(to right, #6a9c3e, #2c5e1e);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.4rem;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(60, 100, 20, 0.5);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .proposal-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(40, 80, 10, 0.7);
+            background: linear-gradient(to right, #3b6e22, #5d8c3a);
+        }
+
+        .response-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .response-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .yes-btn {
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+            color: white;
+            box-shadow: 0 5px 15px rgba(100, 180, 50, 0.5);
+        }
+
+        .response-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .message {
+            margin-top: 30px;
+            font-size: 1.7rem;
+            color: #f9e281;
+            min-height: 70px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #d9e3b0;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(180, 210, 100, 0.3);
+        }
+
+        /* قائمة التشخيص */
+        ul {
+            text-align: right;
+            line-height: 2;
+            margin: 20px 0;
+            padding-right: 20px;
+            list-style-type: none;
+        }
+        ul li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-right: 22px;
+        }
+        ul li::before {
+            content: "🌿";
+            position: absolute;
+            right: -2px;
+            top: 2px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar-container {
+            margin-bottom: 15px;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .progress-bg {
+            background: rgba(180, 210, 120, 0.3);
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        .love-fill { background: linear-gradient(to right, #e0b84d, #ffbb77); }
+        .commitment-fill { background: linear-gradient(to right, #7cb342, #c0ca33); }
+        .eternity-fill { background: linear-gradient(to right, #66bb6a, #aed581); }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            .name {
+                font-size: 2.8rem;
+            }
+            .proposal-card {
+                padding: 20px;
+            }
+            .response-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            .response-btn {
+                width: 80%;
+            }
+        }
+
+        /* عناصر الطيران المؤقتة */
+        .fly-leaf, .fly-flask {
+            position: fixed;
+            pointer-events: none;
+            z-index: 999;
+            font-size: 28px;
+        }
+        .fly-leaf { color: #b8e1a0; text-shadow: 0 0 5px #6b8c3e; }
+        .fly-flask { color: #b1d4b0; }
+    </style>
+</head>
+<body>
+
+<!-- خلفيات متحركة: أوراق وأدوات معملية -->
+<div class="leaves-container" id="leavesContainer"></div>
+<div class="lab-container" id="labContainer"></div>
+
+<div class="container">
+    <header>
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            <i class="fas fa-flask"></i>
+            <i class="fas fa-seedling"></i>
+            <i class="fas fa-microscope"></i>
+        </div>
+        <h1>تقرير حب زراعي</h1>
+        <p class="subtitle">مهندس زراعي يهديكِ عينة نادرة من حبه الأبدي</p>
+        
+        <div class="name-container">
+            <p>إلى الباحثة المتميزة</p>
+            <div class="name">سارة</div>
+            <div class="title-under-name">أجمل نتاج في معملي ... حبيبتي و شريكة حياتي</div>
+            <p style="margin-top: 15px; font-size: 1.1rem;">كل تحليل يثبت أنكِ التركيبة الوحيدة القادرة على إكمال حمضي النووي ❤️</p>
+        </div>
+    </header>
+    
+    <main>
+        <div class="content">
+            <!-- البطاقة الأولى: عرض الزواج المباشر -->
+            <div class="proposal-card">
+                <h2><i class="fas fa-dna"></i> تقرير زراعة الأنسجة القلبية</h2>
+                <p>عزيزتي سارة،</p>
+                <p>بين عينات التربة، ومجاهر التحليل، وتجارب تحسين البذور، أدركت أن كل التفاعلات الكيميائية في الكون لا تُنتج مركباً يشبه حبك. أنتِ الطفرة الواعدة في حياتي.</p>
+                
+                <div class="report-container">
+                    <div class="report-header">
+                        <div class="lab-name">معمل الزراعة المتطورة - قسم تحسين القلوب</div>
+                        <div>تاريخ التسجيل: اليوم و حتى آخر محصول</div>
+                    </div>
+                    <div class="report-title">عرض زواج (معتمد مخبرياً)</div>
+                    <div class="report-item">
+                        <div class="factor-name">🌾 جرعة سارة اليومية (حب + رعاية)</div>
+                        <div class="value">مدى الحياة / ٣ مرات يومياً</div>
+                    </div>
+                    <div class="report-item">
+                        <div class="factor-name">🧪 عنصر الحب غير المشروط</div>
+                        <div class="value">تركيز : بلا حدود</div>
+                    </div>
+                    <div class="report-item">
+                        <div class="factor-name">🌱 تحليل التربة العاطفية</div>
+                        <div class="value">خصبة جداً (بسبب وجودكِ)</div>
+                    </div>
+                    <div class="report-item">
+                        <div class="factor-name">💧 مؤشر الضحكة الصافية</div>
+                        <div class="value">> 99% (ضحكة سارة)</div>
+                    </div>
+                    <div class="report-item">
+                        <div class="factor-name">🤍 عناق حراري معزز</div>
+                        <div class="value">يوصف كلما دعت الحاجة</div>
+                    </div>
+                    <div class="signature">
+                        <div>المهندس الزراعي: الذي يريد أن يزرع بكِ أجمل أيام عمره</div>
+                        <div style="margin-top: 5px;">التوقيع: ___________ (بصمة وراثية ❤️)</div>
+                    </div>
+                </div>
+                
+                <p style="font-size: 1.3rem; font-weight: bold;">سارة... هل تقبلين أن تكوني زوجتي وشريكة حياتي، ونبدأ معاً حصاد الحب والزواج المبارك؟</p>
+                
+                <div class="btn-container">
+                    <button class="proposal-btn" id="proposalBtn">
+                        <i class="fas fa-seedling"></i> اضغطي لقراءة طلب الزواج
+                    </button>
+                </div>
+                
+                <div class="response-buttons" id="responseButtons">
+                    <button class="response-btn yes-btn" id="yesBtn">نعم، أوافق على الزواج 💍</button>
+                </div>
+                
+                <div class="message" id="message"></div>
+            </div>
+            
+            <!-- البطاقة الثانية: فحوصات الحب -->
+            <div class="proposal-card">
+                <h2><i class="fas fa-droplet"></i> فحوصات الحب</h2>
+                <p>بناءً على التحاليل الدقيقة:</p>
+                <ul>
+                    <li>نسبة التوافق الجيني: 100% (بفضل الله ثم وجودكِ)</li>
+                    <li>مؤشر الشوق اليومي: يتجاوز الحدود الطبيعية</li>
+                    <li>العلاج المقترح: زواج دائم وعيش مشترك في أرض الحب والإخاء</li>
+                    <li>مدة الفعالية: أبدية (لا يوجد نصف عمر لهذا المركب)</li>
+                    <li>الآثار الجانبية: سعادة غير مسبوقة، حصاد وفير من الذكريات الجميلة</li>
+                </ul>
+                
+                <div class="report-container">
+                    <div style="text-align: center; color: #ffe1a0; font-size: 1.3rem; margin-bottom: 15px;">
+                        <i class="fas fa-chart-line"></i> نتائج تحسين السلالة العاطفية <i class="fas fa-leaf"></i>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-label">
+                            <span>🌿 مؤشر الحب الفسيولوجي:</span>
+                            <span style="color: #ffdf99;">100%</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill love-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-label">
+                            <span>🧬 مستوى الالتزام الجيني:</span>
+                            <span style="color: #ffdf99;">100%</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill commitment-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-label">
+                            <span>⏳ مدة تأثير الدفء العاطفي:</span>
+                            <span style="color: #ffdf99;">أبدية</span>
+                        </div>
+                        <div class="progress-bg">
+                            <div class="progress-fill eternity-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px; font-style: italic; color: #deecb0;">
+                        "الحب الحقيقي كالنبتة الطيبة: تسقى بالثقة وتنمو في ضوء الاحترام، وتثمر أفراحاً لا تذبل"
+                    </div>
+                </div>
+                
+                <p style="margin-top: 20px;">أنتِ التركيبة السحرية التي كنت أبحث عنها... عينتي المثالية، وحلم كل مهندس زراعي.</p>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>صمم بواسطة مهندس زراعي – وجد في حب سارة أكمل تفاعل كيميائي في حياته ❤️🌱</p>
+    </footer>
+</div>
+
+<script>
+    // إنشاء الخلفيات المتحركة (أوراق وأدوات معمل)
+    function createBackground() {
+        const leavesContainer = document.getElementById('leavesContainer');
+        const labContainer = document.getElementById('labContainer');
+        leavesContainer.innerHTML = '';
+        labContainer.innerHTML = '';
+        
+        // أوراق متحركة
+        const leafIcons = ['🍃', '🌿', '🍂', '🌱', '🍀'];
+        for (let i = 0; i < 28; i++) {
+            const leaf = document.createElement('div');
+            leaf.classList.add('leaf');
+            leaf.textContent = leafIcons[Math.floor(Math.random() * leafIcons.length)];
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.top = Math.random() * 100 + 'vh';
+            leaf.style.fontSize = (Math.random() * 24 + 18) + 'px';
+            leaf.style.animationDuration = (Math.random() * 6 + 5) + 's';
+            leaf.style.opacity = Math.random() * 0.5 + 0.25;
+            leavesContainer.appendChild(leaf);
+        }
+        
+        // أدوات معملية (فلاسك، أنابيب، ميكروسكوب)
+        const labIcons = ['🧪', '🔬', '🧫', '⚗️', '🌾', '💧', '🧴'];
+        for (let i = 0; i < 22; i++) {
+            const item = document.createElement('div');
+            item.classList.add('lab-item');
+            item.textContent = labIcons[Math.floor(Math.random() * labIcons.length)];
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.top = Math.random() * 100 + 'vh';
+            item.style.fontSize = (Math.random() * 26 + 22) + 'px';
+            item.style.animationDuration = (Math.random() * 7 + 6) + 's';
+            item.style.opacity = Math.random() * 0.5 + 0.2;
+            labContainer.appendChild(item);
+        }
+    }
+    
+    // عناصر طيران مؤقتة (أوراق، قوارير)
+    function createFlyingLeaf() {
+        const leaf = document.createElement('div');
+        leaf.className = 'fly-leaf';
+        leaf.innerHTML = '🍃';
+        leaf.style.left = Math.random() * window.innerWidth + 'px';
+        leaf.style.bottom = '0px';
+        leaf.style.fontSize = (Math.random() * 28 + 22) + 'px';
+        document.body.appendChild(leaf);
+        const duration = Math.random() * 2000 + 1500;
+        leaf.animate([
+            { transform: 'translateY(0) rotate(0deg)', opacity: 0.9 },
+            { transform: `translateY(-${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+        ], { duration: duration, easing: 'cubic-bezier(0.2,0.9,0.4,1)' }).onfinish = () => leaf.remove();
+    }
+    
+    function createFlyingFlask() {
+        const icons = ['🧪', '🔬', '🧫', '🌱', '💧'];
+        const flask = document.createElement('div');
+        flask.className = 'fly-flask';
+        flask.textContent = icons[Math.floor(Math.random() * icons.length)];
+        flask.style.left = Math.random() * window.innerWidth + 'px';
+        flask.style.bottom = '0px';
+        flask.style.fontSize = (Math.random() * 30 + 22) + 'px';
+        document.body.appendChild(flask);
+        const duration = Math.random() * 2600 + 2000;
+        flask.animate([
+            { transform: 'translateY(0) rotate(0deg)', opacity: 0.9 },
+            { transform: `translateY(-${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+        ], { duration: duration, easing: 'cubic-bezier(0.2,0.9,0.4,1)' }).onfinish = () => flask.remove();
+    }
+    
+    // احتفال القبول بالزواج
+    function celebrate() {
+        for (let i = 0; i < 60; i++) {
+            setTimeout(() => createFlyingLeaf(), i * 70);
+            if (i % 3 === 0) setTimeout(() => createFlyingFlask(), i * 90);
+        }
+        document.body.style.background = "linear-gradient(135deg, #1e4d2e 0%, #3b7648 100%)";
+        console.log("🎉 تم قبول عرض الزواج! 🎉");
+    }
+    
+    // قبول الزواج
+    function acceptMarriage() {
+        const responseDiv = document.getElementById('responseButtons');
+        const msgDiv = document.getElementById('message');
+        responseDiv.style.opacity = '0';
+        msgDiv.innerHTML = "يااااااااااااه! قبلتِ الزواج! 💖🌾<br>سارة العمر، سأكون لكِ زوجاً ان شاء الله و ساتحدي العالم من اجلك . أحبك كثيراً.";
+        msgDiv.style.opacity = '1';
+        celebrate();
+    }
+    
+    // عرض زر الموافقة على الزواج
+    function showProposal() {
+        const proposalBtn = document.getElementById('proposalBtn');
+        const responseDiv = document.getElementById('responseButtons');
+        const msgDiv = document.getElementById('message');
+        proposalBtn.style.display = 'none';
+        responseDiv.style.opacity = '1';
+        msgDiv.textContent = "سارة... هل تقبلين الزواج بي؟";
+        msgDiv.style.opacity = '1';
+        for (let i = 0; i < 12; i++) {
+            setTimeout(() => createFlyingLeaf(), i * 120);
+        }
+    }
+    
+    // أثر حركة الماوس (حبوب لقاح)
+    function initMouseTrail() {
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.88) {
+                const dot = document.createElement('div');
+                dot.style.position = 'fixed';
+                dot.style.left = e.pageX + 'px';
+                dot.style.top = e.pageY + 'px';
+                dot.style.width = '7px';
+                dot.style.height = '7px';
+                dot.style.backgroundColor = '#d4e68a';
+                dot.style.borderRadius = '50%';
+                dot.style.pointerEvents = 'none';
+                dot.style.zIndex = '9999';
+                document.body.appendChild(dot);
+                setTimeout(() => {
+                    dot.style.opacity = '0';
+                    dot.style.transition = 'opacity 0.4s';
+                    setTimeout(() => dot.remove(), 400);
+                }, 700);
+            }
+        });
+    }
+    
+    // رسالة ترحيب
+    function showWelcome() {
+        const welcome = document.createElement('div');
+        welcome.innerHTML = "🌱 مرحباً بكِ في معمل الحب الزراعي 💚 - انتظر عرض الزواج";
+        welcome.style.position = 'fixed';
+        welcome.style.top = '20px';
+        welcome.style.left = '50%';
+        welcome.style.transform = 'translateX(-50%)';
+        welcome.style.backgroundColor = 'rgba(50, 90, 40, 0.9)';
+        welcome.style.color = '#f9f0c0';
+        welcome.style.padding = '10px 22px';
+        welcome.style.borderRadius = '40px';
+        welcome.style.zIndex = '10000';
+        welcome.style.fontWeight = 'bold';
+        welcome.style.fontSize = '1rem';
+        welcome.style.backdropFilter = 'blur(6px)';
+        document.body.appendChild(welcome);
+        setTimeout(() => {
+            welcome.style.opacity = '0';
+            welcome.style.transition = 'opacity 0.8s';
+            setTimeout(() => welcome.remove(), 900);
+        }, 3300);
+    }
+    
+    // تهيئة كل شيء
+    function init() {
+        createBackground();
+        const proposalBtn = document.getElementById('proposalBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        if (proposalBtn) proposalBtn.addEventListener('click', showProposal);
+        if (yesBtn) yesBtn.addEventListener('click', acceptMarriage);
+        initMouseTrail();
+        showWelcome();
+        window.addEventListener('resize', () => createBackground());
+    }
+    
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
